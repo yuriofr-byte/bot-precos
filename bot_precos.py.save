@@ -1,0 +1,83 @@
+import requests
+from bs4 import BeautifulSoup
+import schedule
+import time
+import smtplib
+from email.mime.text import MIMEText
+
+# ============================================
+# CONFIGURAÇÕES - Preenche com os teus dados
+# ============================================
+SEU_EMAIL = "teu_email@gmail.com"
+SENHA_EMAIL = "tua_senha"
+EMAIL_DESTINO = "teu_email@gmail.com"
+PRECO_ALVO = 100.00
+
+URL = "https://www.amazon.com.br/dp/B08N5WRWNW"
+
+
+# ============================================
+# FUNÇÕES
+# ============================================
+def verificar_preco():
+    """Verifica o preço atual do produto."""
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
+    }
+
+    try:
+        response = requests.get(URL, headers=headers)
+        soup = BeautifulSoup(response.content, "html.parser")
+
+        preco_texto = soup.find("span", {"class": "a-price-whole"})
+
+        if preco_texto:
+            preco = float(preco_texto.text.replace(".", "").replace(",", ".").strip())
+            print(f"✅ Preço atual: R$ {preco:.2f}")
+
+            if preco <= PRECO_ALVO:
+                enviar_email(preco)
+        else:
+            print("❌ Preço não encontrado.")
+
+    except Exception as e:
+        print(f"❌ Erro: {e}")
+
+
+def enviar_email(preco):
+    """Envia email de alerta quando o preço baixar."""
+    try:
+        mensagem = MIMEText(
+            f"🎉 O produto baixou de preço!\n\n"
+            f"💰 Preço atual: R$ {preco:.2f}\n"
+            f"🎯 Teu preço alvo: R$ {PRECO_ALVO:.2f}\n\n"
+            f"🔗 Link: {URL}"
+        )
+        mensagem["Subject"] = "🔔 Alerta de Preço!"
+        mensagem["From"] = SEU_EMAIL
+        mensagem["To"] = EMAIL_DESTINO
+
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as servidor:
+            servidor.login(SEU_EMAIL, SENHA_EMAIL)
+            servidor.sendmail(SEU_EMAIL, EMAIL_DESTINO, mensagem.as_string())
+            print("📧 Email enviado com sucesso!")
+
+    except Exception as e:
+        print(f"❌ Erro ao enviar email: {e}")
+
+
+# ============================================
+# AGENDAMENTO
+# ============================================
+print("🤖 Bot iniciado! Monitorando preços...")
+verificar_preco()
+
+schedule.every(1).hours.do(ver
+
+ls
+python3 bot_precos.py
+
+
+^x
+^X
+
