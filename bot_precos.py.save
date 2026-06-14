@@ -33,27 +33,27 @@ def verificar_preco():
 
         if preco_texto:
             preco = float(preco_texto.text.replace(".", "").replace(",", ".").strip())
-            print(f"✅ Preço atual: R$ {preco:.2f}")
+            print(f" Preço atual: R$ {preco:.2f}")
 
             if preco <= PRECO_ALVO:
                 enviar_email(preco)
         else:
-            print("❌ Preço não encontrado.")
+            print(" Preço não encontrado.")
 
     except Exception as e:
-        print(f"❌ Erro: {e}")
+        print(f" Erro: {e}")
 
 
 def enviar_email(preco):
     """Envia email de alerta quando o preço baixar."""
     try:
         mensagem = MIMEText(
-            f"🎉 O produto baixou de preço!\n\n"
-            f"💰 Preço atual: R$ {preco:.2f}\n"
-            f"🎯 Teu preço alvo: R$ {PRECO_ALVO:.2f}\n\n"
-            f"🔗 Link: {URL}"
+            f" O produto baixou de preço!\n\n"
+            f" Preço atual: R$ {preco:.2f}\n"
+            f" Teu preço alvo: R$ {PRECO_ALVO:.2f}\n\n"
+            f" Link: {URL}"
         )
-        mensagem["Subject"] = "🔔 Alerta de Preço!"
+        mensagem["Subject"] = " Alerta de Preço!"
         mensagem["From"] = SEU_EMAIL
         mensagem["To"] = EMAIL_DESTINO
 
@@ -63,13 +63,13 @@ def enviar_email(preco):
             print("📧 Email enviado com sucesso!")
 
     except Exception as e:
-        print(f"❌ Erro ao enviar email: {e}")
+        print(f" Erro ao enviar email: {e}")
 
 
 # ============================================
 # AGENDAMENTO
 # ============================================
-print("🤖 Bot iniciado! Monitorando preços...")
+print(" Bot iniciado! Monitorando preços...")
 verificar_preco()
 
 schedule.every(1).hours.do(ver
