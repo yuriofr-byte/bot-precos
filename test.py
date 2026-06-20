@@ -1,31 +1,29 @@
+import pytest
 from bot_precos import BotPrecos
 
 
 def test_verificar_cambio():
     """Teste para verificar a função de cotação."""
     bot = BotPrecos()
-    try:
-        bot.verificar_cambio()
-        print("Teste de verificação de câmbio: SUCESSO")
-    except Exception as e:
-        print(f"Teste de verificação de câmbio: FALHA - {e}")
+    # Verifica se o bot foi inicializado corretamente
+    assert bot is not None
+    assert bot.moeda == "USD"
+    assert bot.preco_alvo == 5.00
+    # Executa a função sem lançar exceção
+    bot.verificar_cambio()
 
 
 def test_enviar_email():
     """Teste para verificar a função de envio de email."""
     bot = BotPrecos()
-    try:
-        bot.enviar_email("Teste Moeda", 123.45)
-        print("Teste de envio de email: SUCESSO")
-    except Exception as e:
-        print(f"Teste de envio de email: FALHA - {e}")
+    assert bot is not None
+    # Testa o envio de email com dados válidos
+    bot.enviar_email("Teste Moeda", 123.45)
 
 
-def test_run_tests():
-    """Executa todos os testes."""
-    test_verificar_cambio()
-    test_enviar_email()
-
-
-if __name__ == "__main__":
-    test_run_tests()         
+def test_bot_precos_initialization():
+    """Teste para verificar a inicialização do bot com parâmetros customizados."""
+    bot = BotPrecos(moeda="EUR", preco_alvo=6.50, seu_email="test@gmail.com")
+    assert bot.moeda == "EUR"
+    assert bot.preco_alvo == 6.50
+    assert bot.seu_email == "test@gmail.com"         
